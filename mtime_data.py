@@ -5,6 +5,10 @@ import json
 
 
 def run():
+
+    data = open("mtime.csv", "a")
+    headStr = "title,final,music,picture,director,story,show,impression,comment,date,method"
+    data.write(headStr)
     # 需要通过浏览器获取自己的cookie
     cookies = {'loginEmail': 'abc%40gmail.com'}
 
@@ -50,14 +54,14 @@ def run():
                 
                 print(title)
                 date, method = request_method(cookies, id)
-                write_to_file(title, rating, comment, date, method)
+                write_to_file(data, title, rating, comment, date, method)
             except TypeError:
                 print("Cannot access movie for movieId: " + id)
 
         page = page + 1
+    data.close()
 
-
-def write_to_file(title, rating, comment, date, method):
+def write_to_file(data, title, rating, comment, date, method):
     data = open("mtime.csv", "a")
     title = str(title)
     
@@ -72,13 +76,12 @@ def write_to_file(title, rating, comment, date, method):
     comment = str(comment)
     date = str(date)
     method = str(method)
-    item = title + "," + finalRating + "," + music + "," + picture + "," 
+    item = title + "," + finalRating + "," + music + "," + picture + ","
         + driector + "," + story + ","
         + show + "," + impression + ","
         + comment + "," + date + "," + method + "\n"
     
     data.write(item)
-    data.close()
 
 
 # 获取观影方式
@@ -121,6 +124,7 @@ def request_comment(cookies, movieId):
 
 if __name__ == "__main__":
     run()
+
 
 class Rating:
     rating = 0.0
