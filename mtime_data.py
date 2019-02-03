@@ -93,7 +93,7 @@ def request_method(cookies, movieId):
 
 # 获取评论的详细信息
 def request_comment(cookies, movieId):
-    url = 'http://service.library.mtime.com/Movie.api?Ajax_CallBack=true&Ajax_CallBackType=Mtime.Library.Services&Ajax_CallBackMethod=GetMovieOverviewRating&Ajax_CrossDomain=1&Ajax_RequestUrl=http%3A%2F%2Fmovie.mtime.com%2FmovieId%2F&Ajax_CallBackArgument0=movieId'  # url = http://service.library.mtime.com/Movie.api?Ajax_CallBack=true&Ajax_CallBackType=Mtime.Library.Services&Ajax_CallBackMethod=GetMovieOverviewRating&Ajax_CrossDomain=1&Ajax_RequestUrl=http%3A%2F%2Fmovie.mtime.com%2F207131%2F&Ajax_CallBackArgument0=207131 
+    url = 'http://service.library.mtime.com/Movie.api?Ajax_CallBack=true&Ajax_CallBackType=Mtime.Library.Services&Ajax_CallBackMethod=GetMovieOverviewRating&Ajax_CrossDomain=1&Ajax_RequestUrl=http%3A%2F%2Fmovie.mtime.com%2FmovieId%2F&Ajax_CallBackArgument0=movieId'
     newurl = url.replace("movieId", movieId, 2)
 
     r = requests.get(newurl, cookies=cookies)
