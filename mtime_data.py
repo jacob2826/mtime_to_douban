@@ -37,8 +37,16 @@ def run():
             
             try:
                 title = commentJson['value']['movieTitle']
-                rating = commentJson['value']['userRating']['Rating']
                 comment = commentJson['value']['userLastComment']
+
+                ratinng = Rating()
+                ratinng.rating = commentJson['value']['userRating']['Rating']
+                ratinng.music = commentJson['value']['userRating']['Rother']
+                ratinng.picture = commentJson['value']['userRating']['Rpicture']
+                ratinng.director = commentJson['value']['userRating']['Rdirector']
+                ratinng.story = commentJson['value']['userRating']['Rstory']
+                rating.show = commentJson['value']['userRating']['Rshow']
+                ratinng.impression = commentJson['value']['userRating']['Rtotal']
                 
                 print(title)
                 date, method = request_method(cookies, id)
@@ -52,13 +60,24 @@ def run():
 def write_to_file(title, rating, comment, date, method):
     data = open("mtime.csv", "a")
     title = str(title)
-    rating = str(rating)
+    
+    finalRating = str(rating.rating)
+    music = str(rating.music)
+    picture = str(rating.picture)
+    driector = str(rating.director)
+    story = str(rating.story)
+    show = str(rating.story)
+    impression = str(rating.impression)
+
     comment = str(comment)
     date = str(date)
     method = str(method)
-    item = title + "\t" + rating + "\t" + comment + "\t" + date + "\t" + method + "\n"
+    item = title + "," + finalRating + "," + music + "," + picture + "," 
+        + driector + "," + story + ","
+        + show + "," + impression + ","
+        + comment + "," + date + "," + method + "\n"
+    
     data.write(item)
-
     data.close()
 
 
@@ -102,3 +121,13 @@ def request_comment(cookies, movieId):
 
 if __name__ == "__main__":
     run()
+
+class Rating:
+    rating = 0.0
+    music = 0.0
+    picture = 0.0
+    director = 0.0
+    story = 0.0
+    show = 0.0
+    impression = 0.0
+    
