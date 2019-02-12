@@ -3,14 +3,30 @@ from bs4 import BeautifulSoup
 import re
 import json
 
+class Rating:
+    rating = 0.0
+    music = 0.0
+    picture = 0.0
+    director = 0.0
+    story = 0.0
+    show = 0.0
+    impression = 0.0
+
 
 def run():
 
-    data = open("mtime.csv", "a")
-    headStr = "title,final,music,picture,director,story,show,impression,comment,date,method"
-    data.write(headStr)
+    with open("mtime.csv", "a") as data:
+        headStr = "title,final,music,picture,director,story,show,impression,comment,date,method\n"
+        data.write(headStr)
+    
     # 需要通过浏览器获取自己的cookie
-    cookies = {'loginEmail': 'abc%40gmail.com'}
+    cookies = {'DefaultCity-CookieKey': '328',
+            '_mi_': 'ed8afa4081d5471021f4f192b25dc97d',
+            '_tt_': '1E98C3F4CE9AE44846BCFC8AB83523CD',
+            '_userCode_': '201922172302454',
+            '_userIdentity_': '201922172302454',
+            '_utmx_': 'E7wQVfHdZmGw9Z4X/oiNL8gvJ0Ugama4X5OKAo9MMTs=',
+            'loginEmail': 'xwhfcenter%40gmail.com'}
 
     url = 'http://my.mtime.com/movie/seen/?&pageIndex='
 
@@ -43,26 +59,26 @@ def run():
                 title = commentJson['value']['movieTitle']
                 comment = commentJson['value']['userLastComment']
 
-                ratinng = Rating()
-                ratinng.rating = commentJson['value']['userRating']['Rating']
-                ratinng.music = commentJson['value']['userRating']['Rother']
-                ratinng.picture = commentJson['value']['userRating']['Rpicture']
-                ratinng.director = commentJson['value']['userRating']['Rdirector']
-                ratinng.story = commentJson['value']['userRating']['Rstory']
+                rating = Rating()
+                rating.rating = commentJson['value']['userRating']['Rating']
+                rating.music = commentJson['value']['userRating']['Rother']
+                rating.picture = commentJson['value']['userRating']['Rpicture']
+                rating.director = commentJson['value']['userRating']['Rdirector']
+                rating.story = commentJson['value']['userRating']['Rstory']
                 rating.show = commentJson['value']['userRating']['Rshow']
-                ratinng.impression = commentJson['value']['userRating']['Rtotal']
+                rating.impression = commentJson['value']['userRating']['Rtotal']
                 
                 print(title)
                 date, method = request_method(cookies, id)
-                write_to_file(data, title, rating, comment, date, method)
+                write_to_file(title, rating, comment, date, method)
             except TypeError:
                 print("Cannot access movie for movieId: " + id)
 
         page = page + 1
     data.close()
 
-def write_to_file(data, title, rating, comment, date, method):
-    data = open("mtime.csv", "a")
+
+def write_to_file(title, rating, comment, date, method):
     title = str(title)
     
     finalRating = str(rating.rating)
@@ -76,12 +92,13 @@ def write_to_file(data, title, rating, comment, date, method):
     comment = str(comment)
     date = str(date)
     method = str(method)
-    item = title + "," + finalRating + "," + music + "," + picture + ","
+    item = (title + "," + finalRating + "," + music + "," + picture + ","
         + driector + "," + story + ","
         + show + "," + impression + ","
-        + comment + "," + date + "," + method + "\n"
+        + comment + "," + date + "," + method + "\n")
     
-    data.write(item)
+    with open("mtime.csv", "a") as data:
+        data.write(item)
 
 
 # 获取观影方式
@@ -124,14 +141,4 @@ def request_comment(cookies, movieId):
 
 if __name__ == "__main__":
     run()
-
-
-class Rating:
-    rating = 0.0
-    music = 0.0
-    picture = 0.0
-    director = 0.0
-    story = 0.0
-    show = 0.0
-    impression = 0.0
     
