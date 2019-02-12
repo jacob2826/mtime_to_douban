@@ -20,13 +20,6 @@ def run():
         data.write(headStr)
     
     # 需要通过浏览器获取自己的cookie
-    cookies = {'DefaultCity-CookieKey': '328',
-            '_mi_': 'ed8afa4081d5471021f4f192b25dc97d',
-            '_tt_': '1E98C3F4CE9AE44846BCFC8AB83523CD',
-            '_userCode_': '201922172302454',
-            '_userIdentity_': '201922172302454',
-            '_utmx_': 'E7wQVfHdZmGw9Z4X/oiNL8gvJ0Ugama4X5OKAo9MMTs=',
-            'loginEmail': 'xwhfcenter%40gmail.com'}
 
     url = 'http://my.mtime.com/movie/seen/?&pageIndex='
 
